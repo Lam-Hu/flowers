@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>指尖绽放 · 甬上四季</title>
+<link rel="stylesheet" href="style.css">
+<!-- 静态预取手势库：入口路径与 app.js 里 CONFIG.mp.bundle 必须一致 -->
+<link rel="modulepreload" href="./vendor/mediapipe/vision_bundle.mjs">
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <!-- 左下：标题与朱砂印（画面里唯一的“大字”） -->
+  <div id="titleBlock">
+    <h1>甬上四季</h1>
+  </div>
+
+  <!-- 右侧竖排题跋：花名、季节、花语、小印 -->
+  <aside id="inscription" aria-hidden="true">
+    <div class="insc-quote">
+      <div id="flowerQuote">岁寒先发，一枝报春</div>
+      <div class="seal seal-small"><span>甬</span></div>
+    </div>
+    <div class="insc-name">
+      <span id="flowerSeason" class="season">春</span>
+      <span id="flowerNameZh">茶花</span>
+    </div>
+  </aside>
+
+  <!-- 右下：只留一个音符，鼠标靠近才露字 -->
+  <div id="soundCtl">
+    <button id="soundBtn" type="button" aria-label="静音 / 停止声音" title="静音 / 停止声音（M）">
+      <span id="muteGlyph">♪</span>
+      <span class="sound-label">静音 · 停止声音</span>
+    </button>
+  </div>
+
+  <!-- 右下：一枚很小的回看窗，帮助对位，不是 HUD -->
+  <div id="camWrap">
+    <video id="cam" autoplay playsinline muted></video>
+    <canvas id="skel" width="240" height="180"></canvas>
+    <div id="handTags">
+      <span id="tagLeft" class="hand-tag">左手</span>
+      <span id="tagRight" class="hand-tag">右手</span>
+    </div>
+  </div>
+
+  <!-- 短暂提示：数秒后自己消失，不常驻 -->
+  <div id="toast" aria-live="polite"></div>
+
+  <!-- 加载诊断：只在出错时出现 -->
+  <div id="errDetail" class="hidden" aria-live="polite"></div>
+
+  <!-- 进入页：操作说明只在这里讲一次 -->
+  <div id="gate">
+    <div class="gate-panel">
+      <div class="gate-logo" title="甬上四季"><span>甬上<br>四季</span></div>
+      <h2>让花在指尖绽放</h2>
+      <p class="gate-guide">右手张合，花开；左手向外一挥，换季。</p>
+      <p class="gate-guide gate-guide-alt">无摄像头也能完整体验：按住空格，或上下拖动鼠标。</p>
+      <button id="startBtn" type="button">进 入</button>
+      <p id="gateProgress" class="gate-progress">正在加载素材 0 / 36</p>
+      <p class="gate-note">M 静音 · C 摄像头 · D 演示模式 · Esc 退出</p>
+    </div>
+  </div>
+
+  <!-- 开场揭幕：一张纸褪去（约 1.2s） -->
+  <div id="reveal" class="hidden" aria-hidden="true">
+    <div class="reveal-veil"></div>
+  </div>
+
+  <!-- 演示模式切换时的纸色过渡：避免大屏切换露出桌面 -->
+  <div id="blackout" aria-hidden="true"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
